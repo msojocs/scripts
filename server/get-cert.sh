@@ -1,9 +1,15 @@
 #!/bin/bash
 #  ~/.acme.sh/acme.sh --upgrade -f --auto-upgrade
 
- ~/.acme.sh/acme.sh --issue -d www.jysafe.cn --webroot ~/docker/code/php/blog --log
- ~/.acme.sh/acme.sh --installcert -d www.jysafe.cn --key-file ~/docker/nginx/cert/www.jysafe.cn/private.key --fullchain-file ~/docker/nginx/cert/www.jysafe.cn/cert.crt
- ~/.acme.sh/acme.sh --installcert -d www.jysafe.cn --key-file ~/docker/code/php/ssl/www.jysafe.cn/private.key --fullchain-file ~/docker/code/php/ssl/www.jysafe.cn/cert.crt
+domain="www.jysafe.cn"
+ ~/.acme.sh/acme.sh --issue -d "$domain" --webroot ~/docker/code/php/blog --log
+ ~/.acme.sh/acme.sh --installcert -d "$domain" --key-file ~/docker/nginx/cert/$domain/private.key --fullchain-file ~/docker/nginx/cert/$domain/cert.crt
+ ~/.acme.sh/acme.sh --installcert -d "$domain" --key-file ~/docker/code/php/ssl/$domain/private.key --fullchain-file ~/docker/code/php/ssl/$domain/cert.crt
+
+domain="api.jysafe.cn"
+ ~/.acme.sh/acme.sh --issue -d "$domain" --webroot ~/docker/code/php/api --log
+ ~/.acme.sh/acme.sh --installcert -d "$domain" --key-file ~/docker/nginx/cert/$domain/private.key --fullchain-file ~/docker/nginx/cert/$domain/cert.crt
+ ~/.acme.sh/acme.sh --installcert -d "$domain" --key-file ~/docker/code/php/ssl/$domain/private.key --fullchain-file ~/docker/code/php/ssl/$domain/cert.crt
 
 echo "reload nginx"
 docker exec -it server_nginx nginx -s reload
