@@ -3,7 +3,7 @@ const path = require('path')
 const fs = require('fs')
 const os = require('os')
 
-const modListData = fs.readFileSync(path.resolve(__dirname, './mod_list.txt')).toString()
+const modListData = fs.readFileSync(path.resolve(__dirname, './mod_list.txt')).toString().replace(/\r/g, '')
 const modList = modListData.split('\n')
 let steamParam = ''
 
@@ -29,9 +29,9 @@ console.log('target path:', targetPath)
 
 for (const modId of modList) {
     console.log(`---------------${modId}---------------------`)
-    let modData = fs.readFileSync(`${contentPath}/${modId}/descriptor.mod`).toString()
+    let modData = fs.readFileSync(`${contentPath}/${modId}/descriptor.mod`).toString().replace(/\r/g, '')
     console.log('mod data:', modData)
-    let modDetail = modData.split('\n')
+    let modDetail = modData.split('\n').filter(e => !e.startsWith('path'))
     modDetail.splice(modDetail.length - 1, 0, `path="${contentPath}/${modId}"`.replace(/\\/g, '/'))
     console.log(`${targetPath}/${modId}.mod result:`, modDetail)
     fs.writeFileSync(`${targetPath}/${modId}.mod`, modDetail.join('\n'))
